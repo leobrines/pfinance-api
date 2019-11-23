@@ -1,10 +1,14 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"os"
+
+	"github.com/leobrines/pfinance-api/webserver"
 )
 
 func main() {
-	router := gin.Default()
-	router.Run(":8080")
+	os.Setenv("PORT", "8080")
+
+	server := webserver.New()
+	server.Start()
 }
