@@ -11,3 +11,7 @@ type MethodDB interface {
 	GetByID(id int) (*Method, error)
 	Create(m *Method) (*Method, error)
 }
+
+type MethodService interface {
+	GetByID(id int) (*Method, error)
+}
