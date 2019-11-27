@@ -7,7 +7,7 @@ type Method struct {
 	Balance    int
 }
 
-type MethodRepo interface {
+type MethodDB interface {
 	GetByID(id int) (*Method, error)
 	Create(m *Method) (*Method, error)
 }

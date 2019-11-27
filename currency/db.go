@@ -7,12 +7,12 @@ import (
 
 const currencyKey = "currency"
 
-type Repo struct {
+type DB struct {
 	Redis *redis.Client
 }
 
-func (r *Repo) GetByID(id int) (*domain.Currency, error) {
-	name, err := r.Redis.LIndex(currencyKey, int64(id)-1).Result()
+func (db *DB) GetByID(id int) (*domain.Currency, error) {
+	name, err := db.Redis.LIndex(currencyKey, int64(id)-1).Result()
 
 	if err != nil {
 		return nil, err

@@ -11,7 +11,7 @@ import (
 	"github.com/leobrines/pfinance-api/method"
 )
 
-var repo *method.Repo
+var db *method.DB
 
 func TestMain(m *testing.M) {
 	redisServer, err := miniredis.Run()
@@ -24,7 +24,7 @@ func TestMain(m *testing.M) {
 		Addr: redisServer.Addr(),
 	})
 
-	repo = &method.Repo{
+	db = &method.DB{
 		Redis: redisClient,
 	}
 
@@ -33,24 +33,24 @@ func TestMain(m *testing.M) {
 }
 
 func TestGetExistingMethodByID(t *testing.T) {
-	givenRepoWithRedisForTesting()
+	givenDatabaseWithRedisForTesting()
 
-	method, err := repo.GetByID(1)
+	method, err := db.GetByID(1)
 
 	assert.NoError(t, err)
 	assert.Equal(t, 1, method.Id)
 }
 
 func TestGetNonExistingMethodByID(t *testing.T) {
-	givenRepoWithRedisForTesting()
+	givenDatabaseWithRedisForTesting()
 
-	method, err := repo.GetByID(2)
+	method, err := db.GetByID(2)
 
 	assert.Error(t, err)
 	assert.Nil(t, method)
 }
 
-func givenRepoWithRedisForTesting() {
-	repo.Redis.FlushAll()
-	repo.Redis.RPush("method", "{\"user_id\":1,\"currency_id\":1,\"balance\":100}")
+func givenDatabaseWithRedisForTesting() {
+	db.Redis.FlushAll()
+	db.Redis.RPush("method", "{\"user_id\":1,\"currency_id\":1,\"balance\":100}")
 }

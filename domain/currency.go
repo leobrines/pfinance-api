@@ -5,6 +5,6 @@ type Currency struct {
 	Name string `json:"name"`
 }
 
-type CurrencyRepo interface {
+type CurrencyDB interface {
 	GetByID(id int) (*Currency, error)
 }

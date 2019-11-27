@@ -11,14 +11,14 @@ import (
 
 const key = "method"
 
-type Repo struct {
+type DB struct {
 	Redis *redis.Client
 }
 
-func (r *Repo) GetByID(id int) (*Method, error) {
+func (db *DB) GetByID(id int) (*Method, error) {
 	method := &domain.Method{}
 
-	methodjson, err := r.Redis.LIndex(key, int64(id)-1).Result()
+	methodjson, err := db.Redis.LIndex(key, int64(id)-1).Result()
 
 	if err != nil {
 		return nil, fmt.Errorf("Method not found")
@@ -37,12 +37,12 @@ func (r *Repo) GetByID(id int) (*Method, error) {
 	return method, nil
 }
 
-func (r *Repo) Create(method *Method) (*Method, error) {
+func (db *DB) Create(method *Method) (*Method, error) {
 	methodjson, err := json.Marshal(method)
 	if err != nil {
 		return nil, err
 	}
-	id, err := r.Redis.RPush(key, methodjson).Result()
+	id, err := db.Redis.RPush(key, methodjson).Result()
 	if err != nil {
 		return nil, err
 	}

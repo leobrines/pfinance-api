@@ -11,7 +11,7 @@ import (
 	"github.com/leobrines/pfinance-api/currency"
 )
 
-var repo *currency.Repo
+var db *currency.DB
 
 func TestMain(m *testing.M) {
 	redisServer, err := miniredis.Run()
@@ -24,7 +24,7 @@ func TestMain(m *testing.M) {
 		Addr: redisServer.Addr(),
 	})
 
-	repo = &currency.Repo{
+	db = &currency.DB{
 		Redis: redisClient,
 	}
 
@@ -33,24 +33,24 @@ func TestMain(m *testing.M) {
 }
 
 func TestGetExistingCurrencyByID(t *testing.T) {
-	givenRepoWithRedisForTesting()
+	givenDatabaseWithRedisForTesting()
 
-	currency, err := repo.GetByID(1)
+	currency, err := db.GetByID(1)
 
 	assert.Equal(t, 1, currency.Id)
 	assert.NoError(t, err)
 }
 
 func TestGetNonExistingCurrencyByID(t *testing.T) {
-	givenRepoWithRedisForTesting()
+	givenDatabaseWithRedisForTesting()
 
-	currency, err := repo.GetByID(2)
+	currency, err := db.GetByID(2)
 
 	assert.Nil(t, currency)
 	assert.Error(t, err)
 }
 
-func givenRepoWithRedisForTesting() {
-	repo.Redis.FlushAll()
-	repo.Redis.RPush("currency", "USD")
+func givenDatabaseWithRedisForTesting() {
+	db.Redis.FlushAll()
+	db.Redis.RPush("currency", "USD")
 }
