@@ -12,6 +12,7 @@ import (
 )
 
 var mockdb *mock.MethodDB
+var service *method.Service
 
 func TestGetExistingMethodByID_Service(t *testing.T) {
 	givenMockMethodDB()
@@ -48,7 +49,7 @@ func givenMockMethodDB() {
 }
 
 func givenServiceWithMockDB() {
-	service := &method.Service{
+	service = &method.Service{
 		DB: mockdb,
 	}
 }
