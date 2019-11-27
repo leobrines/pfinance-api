@@ -1,7 +1,6 @@
 package method_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -27,21 +26,6 @@ func TestGetExistingMethodByID_Service(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Equal(t, 1, user.Id)
-}
-
-func TestGetNonExistingMethodByID_Service(t *testing.T) {
-	givenMockMethodDB()
-
-	mockdb.GetByIDFn = func(id int) (*domain.Method, error) {
-		return nil, fmt.Errorf("User not found")
-	}
-
-	givenServiceWithMockDB()
-
-	user, err := service.GetByID(1)
-
-	assert.Error(t, err)
-	assert.Nil(t, user)
 }
 
 func givenMockMethodDB() {
