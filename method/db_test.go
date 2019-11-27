@@ -50,6 +50,16 @@ func TestGetNonExistingMethodByID(t *testing.T) {
 	assert.Nil(t, method)
 }
 
+func TestGetMethodNotJsonByID(t *testing.T) {
+	givenDatabaseWithRedisForTesting()
+
+	db.Redis.RPush("method", "sarasa")
+	method, err := db.GetByID(2)
+
+	assert.Error(t, err)
+	assert.Nil(t, method)
+}
+
 func givenDatabaseWithRedisForTesting() {
 	db.Redis.FlushAll()
 	db.Redis.RPush("method", "{\"user_id\":1,\"currency_id\":1,\"balance\":100}")
