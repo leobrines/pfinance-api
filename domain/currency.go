@@ -6,5 +6,5 @@ type Currency struct {
 }
 
 type CurrencyRepo interface {
-	GetByID(id int) *Currency
+	GetByID(id int) (*Currency, error)
 }
