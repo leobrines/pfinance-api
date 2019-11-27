@@ -20,9 +20,7 @@ func TestGetExistingMethodByID_Service(t *testing.T) {
 		return &domain.Method{Id: 1}, nil
 	}
 
-	service := &method.Service{
-		DB: mockdb,
-	}
+	givenServiceWithMockDB()
 
 	user, err := service.GetByID(1)
 
@@ -37,9 +35,7 @@ func TestGetNonExistingMethodByID_Service(t *testing.T) {
 		return nil, fmt.Errorf("User not found")
 	}
 
-	service := &method.Service{
-		DB: mockdb,
-	}
+	givenServiceWithMockDB()
 
 	user, err := service.GetByID(1)
 
@@ -49,4 +45,10 @@ func TestGetNonExistingMethodByID_Service(t *testing.T) {
 
 func givenMockMethodDB() {
 	mockdb = &mock.MethodDB{}
+}
+
+func givenServiceWithMockDB() {
+	service := &method.Service{
+		DB: mockdb,
+	}
 }
